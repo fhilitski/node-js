@@ -33,7 +33,7 @@ echo "Running $1"
 echo "Out to $OUT_FNAME"
 echo "Err to $ERR_FNAME"
 
-nohup node $1 1>OUT_FNAME 2>ERR_FNAME &
+nohup node $1 1>$OUT_FNAME 2>$ERR_FNAME &
 
 echo "Process started: "
-echo $(ps -eFx | grep node)
+echo $(ps -eF | grep "node")
