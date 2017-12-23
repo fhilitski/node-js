@@ -7,12 +7,9 @@ const server = http.createServer();
 
 server.on('request', (req, res) => {
   const {method, url, headers} = req; 
-
-  res.statusCode = 200;
-
-  res.setHeader('Content-Type', 'text/html');
-  res.setHeader('X-Powered-By', 'sleepless-nights');
-
+  
+  res.writeHead(200,{'Content-Type':'text/html', 'X-Powered-By':'sleepless-nights'}); 
+  
   var html_out = [];
   html_out.push('<html>');
   html_out.push('<body>');
