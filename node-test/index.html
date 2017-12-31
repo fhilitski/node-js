@@ -1,15 +1,23 @@
 <html>
-<head> </head>
+<head> 
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+</head>
 <title> Node server index page </title>
 <body>
 <h1>Welcome</h1>  
 <h2>Please click a button...</h2>
 <div>
    <form action='/start.html' method='get' target='_blank'>
-      <button type='submit'> Start!.. </button>
+      <button type='submit'>Open start page</button>
    </form>
 </div>
-<div> 
+<div>
+   <form action='/regevent' method='get' target = '_blank'>
+      <button type='submit'>Register custom event...</button>
+   </form>
+</div>
+<div style='font-size:small'>
 	Powered by Node.js
 </div>
 </body>
