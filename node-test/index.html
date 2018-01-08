@@ -1,7 +1,7 @@
 <html>
 <head> 
-  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel='shortcut icon' href='/favicon.ico' type='image/x-icon'>
+  <link rel='icon' href='/favicon.ico' type='image/x-icon'>
 </head>
 <title> Node server index page </title>
 <body>
@@ -16,6 +16,13 @@
    <form action='/regevent' method='get' target = '_blank'>
       <button type='submit'>Register custom event...</button>
    </form>
+</div>
+<div>
+File upload<br>
+<form action='upload' method='post'>
+  <input type='file' name='upload_file' id='upload_file'>
+  <input type='submit' name='submit' value='Upload file to server'>
+</form>
 </div>
 <div style='font-size:small'>
 	Powered by Node.js
