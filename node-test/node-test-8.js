@@ -36,7 +36,6 @@ server.on('request', function(req, res){
   var url_split_idx = url.indexOf('?'); 
   var url_command = url.substring(url.indexOf('/')+1, ((url_split_idx > -1) ? url_split_idx : url.length));
   console.log('URL command: '+url_command);
-  
   switch (url_command){
     case '','index.html':
       fname = 'index.html';
