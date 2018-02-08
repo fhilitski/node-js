@@ -17,17 +17,17 @@ fi
 
 if [[ $N -gt 1 ]]
 	then
-	echo "Writing stdout..."
+	echo "Writing stdout to: $2"
 	OUT_FNAME=$2
 	if [[ $N -eq 3 ]]
 	 then
+		echo "Writing stderr to: $3"
 		ERR_FNAME=$3
-		echo "Writing stderr"
 	fi
 fi
 
 
-echo "Running node.js in a background";
+echo "Running node.js in a background...";
 echo "Node $(node -v) -- executable: $(which node)";
 echo "Running $1"
 echo "Out to $OUT_FNAME"

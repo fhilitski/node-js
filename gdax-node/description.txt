@@ -1,0 +1,6 @@
+description.txt
+test-1.js
+test-promise-1.js
+test-ws-gdax-1.js
+test-ws-gdax-2.js, subscribes to gdax websocket service, output tickers into console
+test-ws-gdax-socket.js, subscribes to gdax websocket service, creates http server running express, serves tickers as web ppage
