@@ -4,7 +4,6 @@ More info here:
 /github.com/coinbase/gdax-node/
 */
 
-
 const endpoint = 'https://api.gdax.com'; //gdax api endpoint
 const ws_endpoint = 'wss://ws-feed.gdax.com'; //gdax ws endpoint
 const ws_options ={ channels: [ 'ticker'] };
@@ -25,6 +24,7 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
+
 const hostname = '10.0.0.85';
 const port = 3000;
 const server_html_dir = process.env.SERVER_HTML_DIR;
@@ -58,11 +58,18 @@ if (serve_html) {
    });
 }
 
-io.on('connection', function(client) {
-   console.log('Connected id: ' + client.id);
+io.on('connection', function(socket) {
+   console.log('Connected id: ' + socket.id + 'from '+ socket.conn.remoteAddress);
+   socket.emit('msg-connect', { status : 'connected', id : socket.id, remote_addr : socket.conn.remoteAddress});
+   got_clients = true;	
+});
+
+io.on('reconnect', function(client) {
+   console.log('Re-connected id: ' + client.id);
    client.emit('msg-connect', { status : 'connected', id : client.id});
    got_clients = true;	
 });
+
 
 
 /*
@@ -124,8 +131,8 @@ also caluclates and prints profitability
 function print_profitability(){  
   // let's check how many rates have been recorded
   var n = Object.keys(rates).length; 
-  console.log(timestamp + ': ');
-  console.log('\tRates obtained: ' + n);
+  //console.log(timestamp + ': ');
+  //console.log('\tRates obtained: ' + n);
   //route contains three exchange rates for circular cross-currency trade (CXT)
   var route = ['BTC-USD','ETH-BTC','ETH-USD'];
   //var route = ['BTC-USD','BCH-BTC','BCH-USD'];
@@ -142,7 +149,7 @@ function print_profitability(){
           }
         } 
      }
-     console.log('\tProfitability: ' + prof);
+     //console.log('\tProfitability: ' + prof);
      io.sockets.emit('msg-prof', { profitability : parseFloat(prof).toFixed(5)});
    } 
    else {
