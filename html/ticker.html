@@ -9,7 +9,8 @@
 	var loc = window.location.origin;
 	var socket = io.connect(loc);
   	var rates_div = $('div#rates');
-        
+	const FADE_INT = 100; //ms - interval for fade animation        
+
 	socket.on('disconnect', function(data){
 		var msg = 'Connection closed: ' + data;
 		console.log(msg);
@@ -25,7 +26,8 @@
 	});
 	socket.on('msg-connect', function(data) {
 	  $('#conn-status').text(data.status);
-	  $('#msg-info').html('<p>Client: ' + data.remote_addr +'</br>ID:' + data.id + '</p>');
+	  var msg_info = 'Client: ' + data.remote_addr +' ID:' + data.id;
+	  $('#msg-info').text(msg_info);
 	});
 	socket.on('msg-info', function(data) {
 		$('#msg-info').text(data.data)
@@ -38,8 +40,9 @@
 			rates_div.append(msg);
 		}
 		else {
-			rate_obj.children('span').text(data.rate)
-			.fadeTo('fast',0.1).fadeTo('fast',1);
+			rate_obj.children('span').fadeTo(FADE_INT,0.1)
+			.text(data.rate)
+			.fadeTo(FADE_INT,1);
 		};
 		$('#timestamp').text(data.timestamp)
 	});
@@ -54,15 +57,14 @@
 <h1>GDAX ticker</h1>  
 <h2></h2>
 <div id='info'>
-	<p>
-	Server connection: <span id='conn-status'>NOT established</span>		</p>
+	<p>Server connection: <span id='conn-status'>NOT established</span></p>
 	<p id='msg-info'></p>
-	<p> Last update: <span id='timestamp'></span></p>
+	<p>Last update: <span id='timestamp'>N/A</span></p>
 </div>
 <div id='rates'>
 </div>
 <div>
- 	<p> Profitability: <span id='prof'></span></p>
+ 	<p>Profitability: <span id='prof'>N/A</span></p>
 </div>
 <div style='font-size:small'>
 	Powered by Node.js
