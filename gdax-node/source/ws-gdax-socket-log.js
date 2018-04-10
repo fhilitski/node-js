@@ -35,8 +35,10 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
-const hostname = '10.0.0.85';
-const port = 3000;
+//const hostname = '10.0.0.85';
+const hostname = process.env.SERVER_ADDRESS;
+//const port = 3000;
+const port = process.env.SERVER_PORT;
 const server_html_dir = process.env.SERVER_HTML_DIR;
 
 var rates = []; //Global variable for recording exchange rate
@@ -54,6 +56,23 @@ if (!serve_html) {
   console.log('Can not serve HTML pages');
 };
 
+/*
+ export SERVER_URL to the environment - this is server IP address
+*/
+var serve_html = serve_html && (host !== undefined);
+if (!serve_html) {
+  console.log('Please export SERVER_ADDRESS ... ');
+  console.log('Can not serve HTML pages');
+};
+
+/*
+ export SERVER_PORT to the environment - server port
+*/
+var serve_html = serve_html && (port !== undefined);
+if (!serve_html) {
+  console.log('Please export SERVER_PORT ... ');
+  console.log('Can not serve HTML pages');
+};
 if (serve_html) {
    /* Serve ticker page */
    app.get('/ticker', function(req, res){
