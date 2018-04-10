@@ -1,75 +1,75 @@
 <!DOCTYPE html>
 <html>
-<head> 
-  <link rel='shortcut icon' href='/favicon.ico' type='image/x-icon'>
-  <link rel='icon' href='/favicon.ico' type='image/x-icon'>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src='/socket.io/socket.io.js'></script>
-  <script>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel='icon' href='/favicon.ico' type='image/x-icon'>
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  	<script src='/socket.io/socket.io.js'></script>
+  	<script>
     $(document).ready(function() {
-	var loc = window.location.origin;
-	var socket = io.connect(loc);
-  	var rates_div = $('div#rates');
-	const FADE_INT = 100; //ms - interval for fade animation        
+		var loc = window.location.origin;
+		var socket = io.connect(loc);
+  		var rates_div = $('div#rates');
+		const FADE_INT = 100; //ms - interval for fade animation        
 
-	socket.on('disconnect', function(data){
-		var msg = 'Connection closed: ' + data;
-		console.log(msg);
+		socket.on('disconnect', function(data){
+			var msg = 'Connection closed: ' + data;
+			console.log(msg);
 	        $('#conn-status').text(data);
-		$('#msg-info').text('');
-	});
-	socket.on('reconnect_attempt', (n) => {
-  		var msg = 'Reconnecting... attempt '+ n;
-		$('#msg-info').text(msg);
-	});
-	socket.on('error', function(data){
-		console.log('Socket error: ' + data);
-	});
-	socket.on('msg-connect', function(data) {
-	  $('#conn-status').text(data.status);
-	  var msg_info = 'Client: ' + data.remote_addr +' ID:' + data.id;
-	  $('#msg-info').text(msg_info);
-	});
-	socket.on('msg-info', function(data) {
-		$('#msg-info').text(data.data)
-	});
-	socket.on('msg-rate', function(data){
-		var rate_id = data.market;
-		var rate_obj = rates_div.children('#'+rate_id);
-		var msg = "<p id='" + rate_id + "'>" + rate_id + ": <span>" + data.rate + "</span></p>";  
-		if (rate_obj.length == 0){
-			rates_div.append(msg);
-		}
-		else {
-			rate_obj.children('span').fadeTo(FADE_INT,0.1)
-			.text(data.rate)
-			.fadeTo(FADE_INT,1);
-		};
-		$('#timestamp').text(data.timestamp)
-	});
-	socket.on('msg-prof', function(data){
-		$('#prof').text(data.profitability)
-	});
-    });
-  </script>
+			$('#msg-info').text('');
+		});
+		socket.on('reconnect_attempt', (n) => {
+  			var msg = 'Reconnecting... attempt '+ n;
+			$('#msg-info').text(msg);
+		});
+		socket.on('error', function(data){
+			console.log('Socket error: ' + data);
+		});
+		socket.on('msg-connect', function(data) {
+	  		$('#conn-status').text(data.status);
+	  		var msg_info = 'Client: ' + data.remote_addr +' ID:' + data.id;
+	  		$('#msg-info').text(msg_info);
+		});
+		socket.on('msg-info', function(data) {
+			$('#msg-info').text(data.data)
+		});
+		socket.on('msg-rate', function(data){
+			var rate_id = data.market;
+			var rate_obj = rates_div.children('#'+rate_id);
+			var msg = "<p id='" + rate_id + "'>" + rate_id + ": <span>" + data.rate + "</span></p>";  
+			if (rate_obj.length == 0){
+				rates_div.append(msg);
+			}
+			else {
+				rate_obj.children('span').fadeTo(FADE_INT,0.1)
+				.text(data.rate)
+				.fadeTo(FADE_INT,1);
+			};
+			$('#timestamp').text(data.timestamp);
+		});
+		socket.on('msg-prof', function(data){
+			$('#prof').text(data.profitability)
+		});
+   	});
+	</script>
+	<title>GDAX ticker page </title>  
 </head>
-<title>GDAX ticker page </title>
 <body>
-<h1>GDAX ticker</h1>  
-<h2></h2>
-<div id='info'>
-	<p>Server connection: <span id='conn-status'>NOT established</span></p>
-	<p id='msg-info'></p>
-	<p>Last update: <span id='timestamp'>N/A</span></p>
-</div>
-<div id='rates'>
-</div>
-<div>
- 	<p>Profitability: <span id='prof'>N/A</span></p>
-</div>
-<div style='font-size:small'>
-	Powered by Node.js
-</div>
+	<h1>GDAX ticker</h1>  
+	<h2></h2>
+	<div id='info'>
+		<p>Server connection: <span id='conn-status'>NOT established</span></p>
+		<p id='msg-info'></p>
+		<p>Last update: <span id='timestamp'>N/A</span></p>
+	</div>
+	<div id='rates'>
+	</div>
+	<div>
+ 		<p>Profitability: <span id='prof'>N/A</span></p>
+	</div>
+	<div style='font-size:small'>
+		Powered by Node.js :)
+	</div>
 </body>
 </html>
  

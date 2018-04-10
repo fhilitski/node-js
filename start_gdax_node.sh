@@ -1,3 +1,4 @@
+
 export SERVER_HTML_DIR=$(pwd)/html
 export SERVER_PORT=3000
 #export SERVER_ADDRESS=$(sbin/ifconfig eth0 | grep 'inet addr' | cut -d: -f2 | awk '{print $1}')

@@ -65,17 +65,19 @@ if (!serve_html) {
 };
 
 if (serve_html) {
-   /* Serve ticker page */
-   app.get('/ticker', function(req, res){
-      console.log(`serving ${server_html_dir}/index.html`); 
-      res.sendFile(server_html_dir + '/ticker.html');
-   });
-
+  /* Serve ticker page */
+  app.get('/ticker', function(req, res){
+    console.log(`serving ${server_html_dir}/index.html`); 
+    res.sendFile(server_html_dir + '/ticker.html');
+  });
+  app.get('/favicon.ico', function(req, res){
+    res.sendFile(server_html_dir + '/favicon.ico');
+  });
    /* Start http server */
-   server.listen(port, hostname, function(){
-      console.log(`Server running at http://${hostname}:${port}/`);
-      console.log(`Server HTML root dir: ${server_html_dir}`);
-   });
+  server.listen(port, hostname, function(){
+    console.log(`Server running at http://${hostname}:${port}/`);
+    console.log(`Server HTML root dir: ${server_html_dir}`);
+  });
 } 
 else {
   console.log('Please export SERVER_HTML_DIR ... ');
