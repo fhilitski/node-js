@@ -26,6 +26,7 @@ if [[ $N -gt 1 ]]
 	fi
 fi
 
+echo "Server running on $SERVER_ADDRESS:$SERVER_PORT"
 echo "Serving HTML from $SERVER_HTML_DIR";
 echo "Running node.js in a background...";
 echo "Node $(node -v) -- executable: $(which node)";

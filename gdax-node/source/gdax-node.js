@@ -24,7 +24,7 @@ var wsconn = new Gdax.WebsocketClient(ws_product_id, ws_endpoint, null, ws_optio
 /*
 use redis.io for logging connections to ticker websocket feed
 */
-var log_redis = require('redis');
+//var log_redis = require('redis');
 /*
 we need to have redis server installed/confgured first
 */
@@ -34,21 +34,31 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
-
-const hostname = '10.0.0.85';
-const port = 3000;
-const server_html_dir = process.env.SERVER_HTML_DIR;
-
 var rates = []; //Global variable for recording exchange rate
 var got_clients = false; //set to true of clients are connected to socket.io
-var timestamp, m_timestamp = null;
-
 var moment = require('moment'); //moment.js for timestamp formatting
 
+const hostname = process.env.SERVER_ADDRESS;
+const port = process.env.SERVER_PORT;
+const server_html_dir = process.env.SERVER_HTML_DIR;
+/*
+ export SERVER_URL to the environment - this is server IP address
+*/
+var serve_html = (hostname !== undefined);
+if (!serve_html) {
+  console.log('Please export SERVER_ADDRESS ... ');
+};
+/*
+ export SERVER_PORT to the environment - server port
+*/
+serve_html = serve_html && (port !== undefined);
+if (!serve_html) {
+  console.log('Please export SERVER_PORT ... ');
+};
 /*
  export SERVER_HTML_DIR to the environment - this is a root dir with HTLM pages to serve
 */
-var serve_html = (server_html_dir !== undefined);
+serve_html = serve_html && (server_html_dir !== undefined);
 if (!serve_html) {
   console.log('Please export SERVER_HTML_DIR ... ');
   console.log('Can not serve HTML pages');
@@ -66,7 +76,11 @@ if (serve_html) {
       console.log(`Server running at http://${hostname}:${port}/`);
       console.log(`Server HTML root dir: ${server_html_dir}`);
    });
-}
+} 
+else {
+  console.log('Please export SERVER_HTML_DIR ... ');
+  console.log('Can not serve HTML pages');
+};
 
 /* update client info on connection */
 io.on('connection', function(socket) {
@@ -104,8 +118,8 @@ wsconn.on('close', function() {
 	var msg = get_ts_string() + ': WS GDAX connection closed';
 	console.log(msg);
         io.sockets.emit('msg-info', {data : msg});
-	//attmept to re-connect
-	wsconn.connect();
+	//at this point, WS instance is dead
+        //wsconn.connect();//this will not work
 });
 
 /*
@@ -182,7 +196,7 @@ function print_profitability(){
    } 
    else {
      /* need three rates to get profitability score */
-     var msg1 = timestamp + ':\n\tWaiting for more rates... ';
+     var msg1 = get_ts_string() + ':\n\tWaiting for more rates... ';
      var msg2 = '\tHave now: ' + Object.keys(rates);
      console.log(msg1);
      console.log(msg2);
