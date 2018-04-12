@@ -37,4 +37,4 @@ echo "Err to $ERR_FNAME"
 nohup node $1 1>$OUT_FNAME 2>$ERR_FNAME &
 
 echo "Process started: "
-echo $(ps -eF | grep "node")
+echo $(ps -ef | grep "node")
